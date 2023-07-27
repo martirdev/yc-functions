@@ -7,7 +7,7 @@
   "trailingComma": "none",
   "bracketSpacing": false,
   "arrowParens": "avoid",
-  "importOrder": ["^@(.*)", "^[./]"],
+  "importOrder": ["^_(.*)", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "plugins": ["@trivago/prettier-plugin-sort-imports"]
