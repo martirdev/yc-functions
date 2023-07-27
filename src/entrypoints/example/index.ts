@@ -1,5 +1,6 @@
-import {requestFromDB} from '@utils/db';
 import {Handler} from '@yandex-cloud/function-types';
+
+import {requestFromDB} from '_utils/db';
 
 import {RequestParams} from './model';
 import {createDbQuery} from './query';

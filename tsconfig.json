@@ -8,10 +8,10 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "dist",
+    "allowJs": false,
     "paths": {
-      "@*": ["src/*"]
+      "_*": ["src/*"]
     }
   },
-  "include": ["./src"],
   "exclude": ["dist"]
 }
