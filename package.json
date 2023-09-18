@@ -9,11 +9,11 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@yandex-cloud/nodejs-sdk": "2.4.8",
-    "axios": "1.4.0",
+    "@yandex-cloud/nodejs-sdk": "2.4.9",
+    "axios": "1.5.0",
     "moment": "2.29.4",
-    "ydb-sdk": "4.6.0",
-    "zod": "3.21.4"
+    "ydb-sdk": "3.9.0",
+    "zod": "3.22.2"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "5.0.0",
