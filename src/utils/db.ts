@@ -1,4 +1,4 @@
-import {Driver, TypedData, Ydb, getCredentialsFromEnv, getLogger, identityConversion} from 'ydb-sdk';
+import {Driver, TypedData, Ydb, getCredentialsFromEnv, getLogger} from 'ydb-sdk';
 
 const makeDriver = () => {
   const endpoint = process.env.DB_ENDPOINT;
@@ -8,10 +8,7 @@ const makeDriver = () => {
 };
 
 const convertDBSet = (value: Ydb.IResultSet) => {
-  const TD = TypedData;
-  TD.__options.namesConversion = identityConversion;
-
-  return TD.createNativeObjects(value);
+  return TypedData.createNativeObjects(value);
 };
 
 export const requestFromDB = async (request: string) => {
@@ -26,10 +23,11 @@ export const requestFromDB = async (request: string) => {
 
   const dbResponse = await driver.tableClient.withSession(async session => {
     const preparedQuery = await session.prepareQuery(request);
-    const {resultSets} = await session.executeQuery(preparedQuery);
+    const data = await session.executeQuery(preparedQuery);
 
-    return resultSets.map(convertDBSet);
+    return (data.resultSets ?? []).map(convertDBSet);
   });
+
   driver.destroy();
   return dbResponse;
 };
