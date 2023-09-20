@@ -2,7 +2,7 @@
 
 const convertToClientTime = (storage: RequestStorageParamsType, product_id: string) => 
     storage.map(({size,count}) => 
-    {return `(${product_id}, "${size}", "${count}")`}).join(', ')
+    {return `("${product_id}", "${size}", "${count}")`}).join(', ')
 
 export const createDbQuery = ({product_id, category_id, name, description, material, packaging, delivery, 
                                   choosing_size_guide, price, storage}: RequestParamsType) => `
