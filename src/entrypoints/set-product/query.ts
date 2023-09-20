@@ -1,6 +1,6 @@
 ﻿import {RequestParamsType, RequestStorageParamsType} from './model';
 
-const convertToClientTime = (storage: RequestStorageParamsType, product_id: string) => 
+const convertStorageInfo = (storage: RequestStorageParamsType, product_id: string) => 
     storage.map(({size,count}) => 
     {return `("${product_id}", "${size}", "${count}")`}).join(', ')
 
@@ -34,5 +34,5 @@ export const createDbQuery = ({product_id, category_id, name, description, mater
     
     -- Create/Update storage info
     UPSERT INTO \`storage\` (product_id, size, count)
-    VALUES ${convertToClientTime(storage, product_id)};
+    VALUES ${convertStorageInfo(storage, product_id)};
 `;
