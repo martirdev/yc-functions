@@ -8,11 +8,13 @@ export const RequestParams = z.object({
     material: z.string().optional(),
     packaging: z.string().optional(),
     delivery: z.string().optional(),
-    //TODO: Поменять на enum как станут известны поля 
     choosing_size_guide: z.string().optional(),
     price: z.number().positive(),
-    size: z.enum(["S","M","L"]),
-    count: z.number().positive()
+    storage: z.array(z.object({
+        size: z.enum(["NoSize", "XS", "S", "M", "L", "XL"]),
+        count: z.number().positive(),
+    }))
 });
 
 export type RequestParamsType = z.infer<typeof RequestParams>;
+export type RequestStorageParamsType = z.infer<typeof RequestParams>['storage'];

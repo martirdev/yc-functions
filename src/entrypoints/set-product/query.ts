@@ -1,7 +1,11 @@
-﻿import {RequestParamsType} from './model';
+﻿import {RequestParamsType, RequestStorageParamsType} from './model';
+
+const convertToClientTime = (storage: RequestStorageParamsType, product_id: string) => 
+    storage.map(({size,count}) => 
+    {return `(${product_id}, "${size}", "${count}")`}).join(', ')
 
 export const createDbQuery = ({product_id, category_id, name, description, material, packaging, delivery, 
-                                  choosing_size_guide, price, size, count}: RequestParamsType) => `
+                                  choosing_size_guide, price, storage}: RequestParamsType) => `
     DECLARE $product_id AS String;
     DECLARE $category_id AS String;
     DECLARE $name AS String;
@@ -11,8 +15,6 @@ export const createDbQuery = ({product_id, category_id, name, description, mater
     DECLARE $delivery AS String;
     DECLARE $choosing_size_guide AS String;
     DECLARE $price AS String;
-    DECLARE $size AS String;
-    DECLARE $count AS String;
 
     $product_id = "${product_id}";
     $category_id = "${category_id}";
@@ -23,8 +25,6 @@ export const createDbQuery = ({product_id, category_id, name, description, mater
     $delivery = "${delivery || ''}";
     $choosing_size_guide = "${choosing_size_guide || ''}";
     $price = "${price}";
-    $size = "${size}";
-    $count = "${count}";
 
     -- Create/Update product
     UPSERT INTO \`products\` (product_id, category_id, name, description, material, packaging, delivery, 
@@ -34,5 +34,5 @@ export const createDbQuery = ({product_id, category_id, name, description, mater
     
     -- Create/Update storage info
     UPSERT INTO \`storage\` (product_id, size, count)
-    VALUES ($product_id, $size, $count);
+    VALUES ${convertToClientTime(storage, product_id)};
 `;
