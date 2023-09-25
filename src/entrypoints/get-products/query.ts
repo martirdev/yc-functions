@@ -15,7 +15,7 @@ export const createDbQuery = ({filter, category, limit = 20, offset = 0}: Reques
     WHERE
         IF ($filter = "", true, FIND(p.name, $filter) IS NOT NULL)
         AND IF ($category = "", true, p.category_id = $category)
-    ORDER BY location ASC
+    ORDER BY create_at ASC
     LIMIT $limit
     OFFSET $offset;
 `;
