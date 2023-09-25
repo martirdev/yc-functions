@@ -48,9 +48,9 @@ export const createDbQuery = ({
 
     -- Create/Update product
     UPSERT INTO \`products\` (product_id, category_id, name, description, material, packaging, delivery, 
-    choosing_size_guide, price)
+    choosing_size_guide, price, created_at)
     VALUES ($product_id, $category_id, $name, $description, $material, $packaging, $delivery, 
-    $choosing_size_guide, $price);
+    $choosing_size_guide, $price, CurrentUtcDate());
     
     -- Create/Update storage info
     UPSERT INTO \`storage\` (product_id, size, count)
