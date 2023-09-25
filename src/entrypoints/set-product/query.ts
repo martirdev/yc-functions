@@ -48,15 +48,15 @@ export const createDbQuery = ({
 
     -- Create/Update product
     UPSERT INTO \`products\` (product_id, category_id, name, description, material, packaging, delivery, 
-    choosing_size_guide, price, created_at)
+    choosing_size_guide, price)
     VALUES ($product_id, $category_id, $name, $description, $material, $packaging, $delivery, 
-    $choosing_size_guide, $price, CURRENT_TIMESTAMP);
+    $choosing_size_guide, $price);
     
     -- Create/Update storage info
     UPSERT INTO \`storage\` (product_id, size, count)
     VALUES ${convertStorageInfo(storage, product_id)};
     
     -- Create/Update photos info
-    UPSERT INTO \`photos\` (product_id, photos, link)
+    UPSERT INTO \`photos\` (product_id, position, link)
     VALUES ${convertPhotosInfo(photos, product_id)};
 `;
