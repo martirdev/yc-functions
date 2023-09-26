@@ -11,7 +11,7 @@ export const createDbQuery = ({filter, category, limit = 20, offset = 0}: Reques
     $limit = ${limit};
     $offset = ${offset};
 
-    SELECT * WITHOUT create_at FROM \`products\` as p
+    SELECT * FROM \`products\` as p
     WHERE
         IF ($filter = "", true, FIND(p.name, $filter) IS NOT NULL)
         AND IF ($category = "", true, p.category_id = $category)
