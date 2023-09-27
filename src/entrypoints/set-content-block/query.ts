@@ -8,8 +8,8 @@ export const createDbQuery = ({block_id, section_id, name, content}: RequestPara
 
     $block_id = "${block_id}";
     $section_id = "${section_id}";
-    $name = ${name};
-    $content = ${content};
+    $name = "${name}";
+    $content = "${content}";
 
     -- Create/Update content block
     UPSERT INTO \`content-blocks\` (block_id, section_id, name, content)
