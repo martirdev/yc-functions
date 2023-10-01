@@ -9,9 +9,11 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@octokit/core": "5.0.1",
     "@yandex-cloud/nodejs-sdk": "2.4.9",
     "axios": "1.5.0",
     "moment": "2.29.4",
+    "node-fetch": "3.3.2",
     "ydb-sdk": "3.9.0",
     "zod": "3.22.2"
   },
@@ -33,6 +35,9 @@
     "eslint-config-prettier": "8.8.0",
     "prettier": "3.0.0",
     "rollup": "3.26.3",
-    "typescript": "5.1.6"
+    "rollup-plugin-generate-package-json": "^3.2.0",
+    "typescript": "5.1.6",
+    "unplugin-compression": "^0.0.5",
+    "vite-plugin-cp": "4.0.1"
   }
 }
