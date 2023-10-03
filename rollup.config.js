@@ -2,7 +2,6 @@ import eslint from '@rollup/plugin-eslint';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import fs from 'fs';
-import generatePackageJson from 'rollup-plugin-generate-package-json';
 import cp from 'vite-plugin-cp';
 import Compression from "unplugin-compression/vite";
 
@@ -20,9 +19,8 @@ export default entries.map(([fileName, path]) => ({
     typescript({module: 'ESNext'}),
     eslint(),
     terser(),
-    generatePackageJson(),
     cp({
-      targets: [{src: 'package-lock.json', dest: `dist/${fileName}`}]
+      targets: [{src: 'package.json', dest: `dist/${fileName}`},{src: 'package-lock.json', dest: `dist/${fileName}`}]
     }),
     Compression({
       adapter: "zip",
