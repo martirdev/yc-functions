@@ -1,4 +1,6 @@
-import {Driver, TypedData, Ydb, getCredentialsFromEnv, getLogger} from 'ydb-sdk';
+import ydb from 'ydb-sdk';
+
+const {Driver, TypedData, Ydb, getCredentialsFromEnv, getLogger} = ydb;
 
 const makeDriver = () => {
   const endpoint = process.env.DB_ENDPOINT;
