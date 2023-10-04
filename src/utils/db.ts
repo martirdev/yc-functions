@@ -1,6 +1,6 @@
 import ydb from 'ydb-sdk';
 
-const {Driver, TypedData, Ydb, getCredentialsFromEnv, getLogger} = ydb;
+const {Driver, TypedData, getCredentialsFromEnv, getLogger} = ydb;
 
 const makeDriver = () => {
   const endpoint = process.env.DB_ENDPOINT;
@@ -9,7 +9,7 @@ const makeDriver = () => {
   return new Driver({endpoint, database, authService});
 };
 
-const convertDBSet = (value: Ydb.IResultSet) => {
+const convertDBSet = (value: ydb.Ydb.IResultSet) => {
   return TypedData.createNativeObjects(value);
 };
 
