@@ -10,7 +10,7 @@ export const octokit = new Octokit({
 const TAG_REGEX = /v([0-9]+)/gm;
 
 export const makeTag = (tag: string) => {
-  const [_r1, version] = TAG_REGEX.exec(tag) as any as [unknown, string];
+  const [_r1, version] = TAG_REGEX.exec(tag) as unknown as [unknown, string];
 
   const numberedVersion = Number(version);
   const create = (version: number) => `v${version}`;

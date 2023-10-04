@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "npx eslint . --fix",
     "prettier": "npx prettier . --write",
-    "build": "npx rollup --config"
+    "build": "npx rollup --config rollup.config.js --environment"
   },
   "license": "ISC",
   "dependencies": {
@@ -37,7 +37,9 @@
     "rollup": "3.26.3",
     "rollup-plugin-generate-package-json": "^3.2.0",
     "typescript": "5.1.6",
-    "unplugin-compression": "^0.0.5",
-    "vite-plugin-cp": "4.0.1"
+    "unplugin-zip-pack": "1.0.0",
+    "vite-plugin-clean": "1.0.0",
+    "vite-plugin-cp": "4.0.1",
+    "vite-plugin-zip-pack": "1.0.6"
   }
 }
