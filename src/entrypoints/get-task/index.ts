@@ -13,6 +13,6 @@ export const handler: Handler.Http = async function (_event, context) {
     const result = await requestFromDB(ydbQuery);
     return {
         statusCode: 200,
-        body: JSON.stringify({"result":result[0][0]})
+        body: JSON.stringify(result[0][0])
     };
 };
