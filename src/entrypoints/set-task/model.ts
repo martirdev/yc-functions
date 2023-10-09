@@ -9,7 +9,8 @@ export const RequestParams = z.object({
   task: z.string().optional(),
   status_task: z.enum(['Открыт', 'В работе', 'Ждет проверки', 'Закрыт', 'Требуется информация', 'В беклог']),
   planned_sp: z.number().positive().optional(),
-  spent_sp: z.number().positive().optional()
+  spent_sp: z.number().positive().optional(),
+  close_at: z.string().optional()
 });
 
 export type RequestParamsType = z.infer<typeof RequestParams>;
