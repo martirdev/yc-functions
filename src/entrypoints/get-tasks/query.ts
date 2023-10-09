@@ -5,7 +5,7 @@ export const createDbQuery = ({filter, limit = 20, offset = 0}: RequestParamsTyp
     DECLARE $offset AS Uint32;
     DECLARE $filter AS String;
 
-    $filter = ${filter || '1972-01-01'};
+    $filter = "${filter || '1972-01-01'}";
     $limit = ${limit};
     $offset = ${offset};
 
