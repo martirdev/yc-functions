@@ -13,6 +13,8 @@ export const createDbQuery = ({filter, type, limit = 20, offset = 0, is_radio_pr
     $offset = ${offset};
     $is_radio_practice = ${is_radio_practice || 'null'};
 
+    $grep = Re2::Grep($filter, Re2::Options(false AS CaseSensitive));
+
     SELECT * FROM \`client-call-times\` AS t
     LEFT JOIN clients AS c USING (\`client_id\`)
     WHERE
@@ -23,12 +25,12 @@ export const createDbQuery = ({filter, type, limit = 20, offset = 0, is_radio_pr
         AND IF ($filter = "",
             true,
             (
-                FIND(c.mo, $filter) IS NOT NULL
-                OR FIND(c.call_sign, $filter) IS NOT NULL
-                OR FIND(c.location, $filter) IS NOT NULL
-                OR FIND(c.organization, $filter) IS NOT NULL
-                OR FIND(c.unit, $filter) IS NOT NULL
-                OR FIND(c.trunk_phone, $filter) IS NOT NULL
+                $grep(c.mo)
+                OR $grep(c.call_sign)
+                OR $grep(c.location)
+                OR $grep(c.organization)
+                OR $grep(c.unit)
+                OR $grep(c.trunk_phone)
             )
         )
         AND IF ($type = "", true, c.client_type_id = $type)

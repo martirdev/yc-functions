@@ -13,6 +13,6 @@ export const createDbQuery = ({comment, call_id, client_id, calls_type_id, type}
     $type = "${type}";
     $calls_type_id = "${calls_type_id}";
 
-    UPSERT INTO \`calls\` (comment, call_id, client_id, type, calls_type_id)
-    VALUES ($comment, $call_id, $client_id, $type, $calls_type_id);
+    UPSERT INTO \`calls\` (comment, call_id, client_id, type, calls_type_id, updated_at)
+    VALUES ($comment, $call_id, $client_id, $type, $calls_type_id, CurrentUtcDatetime());
 `;
