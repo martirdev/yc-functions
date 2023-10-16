@@ -59,5 +59,5 @@ export const createDbQuery = ({
     
     -- Create orders-status info
     INSERT  INTO \`orders-status\` (order_status_id, order_id, status, date)
-    VALUES (CAST(RandomUuid(1234) AS String), $order_id, $status, CurrentUtcDate());
+    VALUES (CAST(RandomUuid(1234) AS String), $order_id, $status, CurrentUtcDatetime());
 `;
