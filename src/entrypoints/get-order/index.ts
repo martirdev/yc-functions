@@ -16,6 +16,6 @@ export const handler: Handler.Http = async function (_event, context) {
 
     return {
         statusCode: 200,
-        body: JSON.stringify({result})
+        body: JSON.stringify(result)
     };
 };
