@@ -1,9 +1,14 @@
 ﻿import {RequestParamsType} from './model';
 
-export const createDbQuery = ({order_id}: RequestParamsType) => `
-    DECLARE $order_id AS String;
+export const createDbQuery = ({filter, limit = 20, offset = 0}: RequestParamsType) => `
+    DECLARE $limit AS Uint32;
+    DECLARE $offset AS Uint32;
+    DECLARE $filter AS String;
 
-    $order_id = "${order_id}";
+    $limit = ${limit};
+    $offset = ${offset};
 
-    SELECT * FROM \`orders\` WHERE order_id = $order_id;
+    SELECT * FROM \`orders\` as c
+    LIMIT $limit
+    OFFSET $offset;
 `;
