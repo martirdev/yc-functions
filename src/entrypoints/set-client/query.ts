@@ -1,7 +1,7 @@
 import {RequestParamsType, RequestTimesParamsType} from './model';
 
-const convertToClientTime = (times: RequestTimesParamsType, client_id: string) => times.map(({time, type, schedule}) => {
-    return `(${time}, "${client_id}", Json("[${schedule.join(',')}]"), "${type}")`
+const convertToClientTime = (times: RequestTimesParamsType, client_id: string) => times.map(({time, type, group_name, schedule}) => {
+    return `(${time}, "${client_id}", Json("[${schedule.join(',')}]"), "${type}", "${group_name ?? ''}")`
 }).join(', ')
 
 export const createDbQuery = ({
@@ -65,7 +65,7 @@ export const createDbQuery = ({
     );
 
     -- Insert new call times
-    UPSERT INTO \`client-call-times\` (client_call_id, client_id, schedule, type)
+    UPSERT INTO \`client-call-times\` (client_call_id, client_id, schedule, type, group_name)
     VALUES ${convertToClientTime(times, client_id)};
 
     -- Delete previous call times

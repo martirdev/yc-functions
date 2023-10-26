@@ -34,7 +34,7 @@ export const createDbQuery = ({filter, type, limit = 20, offset = 0, is_radio_pr
             )
         )
         AND IF ($type = "", true, c.client_type_id = $type)
-    ORDER BY client_call_id ASC, location ASC
+    ORDER BY client_call_id ASC, location ASC, group_name ASC
     LIMIT $limit
     OFFSET $offset;
 `;
