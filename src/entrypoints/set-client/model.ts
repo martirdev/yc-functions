@@ -15,7 +15,8 @@ export const RequestParams = z.object({
   times: z.array(z.object({
     time: z.number().positive(),
     schedule: z.array(z.number().min(1).max(7)),	
-    type: z.enum(['common', 'radio-practice'])
+    type: z.enum(['common', 'radio-practice']),
+    group_name: z.string().optional(),
   }))
 });
 
