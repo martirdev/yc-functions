@@ -10,10 +10,10 @@ export const handler: Handler.Http = async function (_event, context) {
   const request = RequestParams.parse(data);
 
   const ydbQuery = createDbQuery(request);
-  const [result] = await requestFromDB(ydbQuery);
+  const result = await requestFromDB(ydbQuery);
 
   return {
     statusCode: 200,
-    body: JSON.stringify(result)
+    body: JSON.stringify(result[0][0])
   };
 };
