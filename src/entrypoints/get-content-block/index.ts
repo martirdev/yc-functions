@@ -5,8 +5,8 @@ import {requestFromDB} from '_utils/db';
 import {RequestParams} from './model';
 import {createDbQuery} from './query';
 
-export const handler: Handler.Http = async function (_event, context) {
-  const data = context.getPayload();
+export const handler: Handler.Http = async function (event, context) {
+  const data = 'params' in event ? event.params : context.getPayload();
   const request = RequestParams.parse(data);
 
   const ydbQuery = createDbQuery(request);
