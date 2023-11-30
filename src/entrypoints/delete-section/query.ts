@@ -1,8 +1,8 @@
-﻿import {RequestParamsType} from './model';
+﻿import {SECTIONS} from '_consts/tables';
 
-export const createDbQuery = ({section_id}: RequestParamsType) => `
+export const createDbQuery = () => `
 DECLARE $product_id AS String;
-$section_id = "${section_id}";
-Delete from \`sections\`
-Where section_id=$section_id
+
+DELETE from ${SECTIONS}
+WHERE section_id = $section_id;
 `;

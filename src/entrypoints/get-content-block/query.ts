@@ -1,9 +1,7 @@
-﻿import {RequestParamsType} from './model';
+﻿import {CONTENT_BLOCKS} from '_consts/tables';
 
-export const createDbQuery = ({block_id}: RequestParamsType) => `
+export const createDbQuery = () => `
     DECLARE $block_id AS String;
 
-    $block_id = "${block_id}";
-
-    SELECT * FROM \`content-blocks\` WHERE block_id = $block_id;
+    SELECT * FROM ${CONTENT_BLOCKS} WHERE block_id = $block_id;
 `;

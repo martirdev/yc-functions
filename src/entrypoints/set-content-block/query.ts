@@ -1,17 +1,14 @@
-﻿import {RequestParamsType} from './model';
+﻿import {CONTENT_BLOCKS} from '_consts/tables';
 
-export const createDbQuery = ({block_id, section_id, name, content}: RequestParamsType) => `
+import {RequestParamsType} from './model';
+
+export const createDbQuery = () => `
     DECLARE $block_id AS String;
     DECLARE $section_id AS String;
     DECLARE $name AS String;
-    DECLARE $content AS String;
-
-    $block_id = "${block_id}";
-    $section_id = "${section_id}";
-    $name = "${name}";
-    $content = "${content}";
+    DECLARE $content AS Optional<String>;
 
     -- Create/Update content block
-    UPSERT INTO \`content-blocks\` (block_id, section_id, name, content)
+    UPSERT INTO ${CONTENT_BLOCKS} (block_id, section_id, name, content)
     VALUES ($block_id, $section_id, $name, $content);
 `;

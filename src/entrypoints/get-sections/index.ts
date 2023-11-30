@@ -2,15 +2,21 @@
 
 import {requestFromDB} from '_utils/db';
 
-import {RequestParams} from './model';
+import {GetSections, RequestParams} from './model';
 import {createDbQuery} from './query';
 
 export const handler: Handler.Http = async function (_event, context) {
   const data = context.getPayload();
   const request = RequestParams.parse(data);
 
-  const ydbQuery = createDbQuery(request);
-  const [result] = await requestFromDB(ydbQuery);
+  const typedSections = new GetSections(request);
+  const ydbQuery = createDbQuery();
+  const [result] = await requestFromDB({
+    request: ydbQuery,
+    params: {
+      $typedSections: typedSections.getTypedValue('parent_id')
+    }
+  });
 
   return {
     statusCode: 200,

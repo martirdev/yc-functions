@@ -1,8 +1,11 @@
 import {RequestParamsType, RequestTimesParamsType} from './model';
 
-const convertToClientTime = (times: RequestTimesParamsType, client_id: string) => times.map(({time, type, group_name, schedule}) => {
-    return `(${time}, "${client_id}", Json("[${schedule.join(',')}]"), "${type}", "${group_name ?? ''}")`
-}).join(', ')
+const convertToClientTime = (times: RequestTimesParamsType, client_id: string) =>
+  times
+    .map(({time, type, group_name, schedule}) => {
+      return `(${time}, "${client_id}", Json("[${schedule.join(',')}]"), "${type}", "${group_name ?? ''}")`;
+    })
+    .join(', ');
 
 export const createDbQuery = ({
   client_id,

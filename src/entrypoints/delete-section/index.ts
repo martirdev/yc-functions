@@ -2,14 +2,21 @@
 
 import {requestFromDB} from '_utils/db';
 
-import {RequestParams} from './model';
+import {DeleteSection, RequestParams} from './model';
 import {createDbQuery} from './query';
 
 export const handler: Handler.Http = async function (_event, context) {
   const data = context.getPayload();
   const request = RequestParams.parse(data);
-  const ydbQuery = createDbQuery(request);
-  await requestFromDB(ydbQuery);
+
+  const typedRequest = new DeleteSection(request);
+  const ydbQuery = createDbQuery();
+  await requestFromDB({
+    request: ydbQuery,
+    params: {
+      $section_id: typedRequest.getTypedValue('section_id')
+    }
+  });
 
   return {
     statusCode: 200,

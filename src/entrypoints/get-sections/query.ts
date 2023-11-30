@@ -1,9 +1,9 @@
-﻿import {RequestParamsType} from './model';
+﻿import {SECTIONS} from '_consts/tables';
 
-export const createDbQuery = ({parent_id}: RequestParamsType) => `
+import {RequestParamsType} from './model';
+
+export const createDbQuery = () => `
     DECLARE $parent_id AS String;
 
-    $parent_id = "${parent_id}";
-
-    SELECT * FROM \`sections\` WHERE parent_id = $parent_id;
+    SELECT * FROM ${SECTIONS} WHERE parent_id = $parent_id;
 `;
