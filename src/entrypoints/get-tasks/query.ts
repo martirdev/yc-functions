@@ -1,21 +1,14 @@
-﻿import {RequestParamsType} from './model';
+﻿import {TASK_TABLE} from '_consts/tables';
 
-export const createDbQuery = ({filter, limit = 20, offset = 0}: RequestParamsType) => `
-    DECLARE $limit AS Uint32;
-    DECLARE $offset AS Uint32;
-    DECLARE $filter AS String;
+export const createDbQuery = () => `
+    DECLARE $limit AS Optional<Uint32>;
+    DECLARE $offset AS Optional<Uint32>;
+    DECLARE $filter AS Optional<DateTime>;
 
-    $filter = "${filter || '1972-01-01'}";
-    $limit = ${limit};
-    $offset = ${offset};
-
-    SELECT * FROM \`tasks\` as c
+    SELECT * FROM ${TASK_TABLE} as c
     WHERE
-        IF ($filter = "1972-01-01",
-            true,
-            close_at < Date($filter)
-        )
-    ORDER BY create_at ASC
+        IF ($filter is NULL, true, c.close_at is NULL OR c.close_at > $filter)
+    ORDER BY create_at DESC
     LIMIT $limit
     OFFSET $offset;
 `;

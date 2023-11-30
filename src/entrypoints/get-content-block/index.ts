@@ -9,7 +9,7 @@ export const handler: Handler.Http = async function (event, context) {
   const data = 'params' in event ? event.params : context.getPayload();
   const request = RequestParams.parse(data);
 
-  const ydbQuery = createDbQuery(request);
+  const ydbQuery = createDbQuery();
   const [result] = await requestFromDB(ydbQuery);
 
   return {

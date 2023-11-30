@@ -1,62 +1,56 @@
-﻿import {RequestParamsType} from './model';
+﻿import {TASK_TABLE, WATCHERS_TABLE} from '_consts/tables';
 
-export const createDbQuery = ({
-  task_id,
-  author_id,
-  executor_id,
-  name,
-  content,
-  task,
-  status_task,
-  planned_sp,
-  spent_sp,
-  type_task_id, 
-  close_at
-}: RequestParamsType) => `
-    DECLARE $task_id AS String;
-    DECLARE $section_id AS String;
-    DECLARE $executor_id AS String;
-    DECLARE $name AS String;
-    DECLARE $content AS String;
-    DECLARE $task AS String;
-    DECLARE $status_task AS String;
-    DECLARE $planned_sp AS Uint64;
-    DECLARE $spent_sp AS Uint64;;
-    DECLARE $type_task_id AS String;
-    DECLARE $close_at AS String;
+export const createTask = () => `
+    DECLARE $task_id AS Optional<Utf8>;
+    DECLARE $author_id AS Utf8;
+    DECLARE $executor_id AS Optional<Utf8>;
+    DECLARE $name AS Utf8;
+    DECLARE $content AS Utf8;
+    DECLARE $task AS Utf8;
+    DECLARE $status_task AS Utf8;
+    DECLARE $planned_sp AS Optional<Uint64>;
+    DECLARE $spent_sp AS Optional<Uint64>;
+    DECLARE $type AS Optional<Utf8>;
+    DECLARE $create_at AS DateTime;
+    DECLARE $watchers AS Optional<List<Utf8>>;
 
-    $task_id = "${task_id}";
-    $author_id = "${author_id}";
-    $executor_id = "${executor_id || ''}";
-    $name = "${name}";
-    $content = "${content || ''}";
-    $task = "${task || ''}";
-    $status_task = "${status_task || 'Открыт'}";
-    $planned_sp = ${planned_sp || null};
-    $spent_sp = ${spent_sp || null};
-    $type_task_id = "${type_task_id || ''}";
-    $close_at = "${close_at || '1972-01-01'}";
+    $create_at = SELECT create_at FROM ${TASK_TABLE} WHERE task_id = $task_id;
+    $content_block_counts = SELECT COUNT(*) FROM ${TASK_TABLE};
 
-    
-    -- Create/check create_at
-    $create_at = (SELECT create_at FROM \`tasks\` WHERE task_id = $task_id);
-    
+    $new_task_id = COALESCE($task_id, CAST($content_block_counts AS Utf8), "0");
+    $new_watchers = COALESCE($watchers, ListCreate(Utf8));
+    $new_create_at = COALESCE($create_at, CurrentUtcDatetime());
+    $closed_at = IF($status_task = 'closed', CurrentUtcDatetime(), null);
+  
     -- Create/Update tasks
-    UPSERT INTO \`tasks\` (task_id, author_id, executor_id, name, content, task, status_task, planned_sp,
-    spent_sp, create_at, update_at, type_task_id, close_at)
-    VALUES ($task_id, $author_id, $executor_id, $name, $content, $task, $status_task, $planned_sp, $spent_sp, 
-    IF($create_at IS NULL, CurrentUtcDatetime(), $create_at), CurrentUtcDatetime(), $type_task_id,
-    IF($close_at = "1972-01-01", null, Date($close_at)));
-`;
+    $task_table = AsList(AsStruct(
+      $new_task_id AS task_id,
+      $author_id AS author_id,
+      $executor_id AS executor_id,
+      $name AS name,
+      $content AS content,
+      $task AS task,
+      $status_task AS status_task,
+      $planned_sp AS planned_sp,
+      $spent_sp AS spent_sp,
+      $new_create_at AS create_at,
+      CurrentUtcDatetime() AS update_at,
+      $type AS type,
+      $closed_at AS close_at,
+    ));
 
-export const createDbQueryAddWatcher = (task_id, user_id) => `
-    DECLARE $task_id AS String;
-    DECLARE $user_id AS String;
+    UPSERT INTO ${TASK_TABLE} SELECT * FROM AS_TABLE($task_table);
+
+    -- Remove old values
+    DELETE FROM ${WATCHERS_TABLE} WHERE task_id = $new_task_id;
     
-    $task_id = "${task_id}";
-    $user_id = "${user_id}";
-    
-    -- Create/Update watchers author
-    UPSERT INTO \`watchers\` (task_id, user_id)
-    VALUES ($task_id, $user_id);
+    $watchers_table = ListMap($new_watchers, ($item) -> {
+      return AsStruct($item AS user_id, $new_task_id AS task_id);
+    });
+
+    -- Insert new watchers
+    UPSERT INTO ${WATCHERS_TABLE} SELECT * FROM AS_TABLE($watchers_table);
+
+    SELECT * FROM AS_TABLE($task_table);
+    SELECT user_id FROM AS_TABLE($watchers_table);
 `;

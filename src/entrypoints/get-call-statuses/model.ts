@@ -1,13 +1,13 @@
 import {z} from 'zod';
 
-import {checkIsDate} from '_utils/query';
+import {checkIsDateTime} from '_utils/query';
 
 export const RequestParams = z.object({
   filter: z.string().optional(),
   type: z.string().optional(),
   is_radio_practice: z.boolean().optional(),
-  from: z.custom(checkIsDate),
-  to: z.custom(checkIsDate)
+  from: z.custom(checkIsDateTime),
+  to: z.custom(checkIsDateTime)
 });
 
 export type RequestParamsType = z.infer<typeof RequestParams>;

@@ -12,12 +12,14 @@ export const RequestParams = z.object({
   responsible_phone: z.string().optional(),
   trunk_phone: z.string().optional(),
   unit: z.string().optional(),
-  times: z.array(z.object({
-    time: z.number().positive(),
-    schedule: z.array(z.number().min(1).max(7)),	
-    type: z.enum(['common', 'radio-practice']),
-    group_name: z.string().optional(),
-  }))
+  times: z.array(
+    z.object({
+      time: z.number().positive(),
+      schedule: z.array(z.number().min(1).max(7)),
+      type: z.enum(['common', 'radio-practice']),
+      group_name: z.string().optional()
+    })
+  )
 });
 
 export type RequestParamsType = z.infer<typeof RequestParams>;

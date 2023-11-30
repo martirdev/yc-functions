@@ -1,18 +1,29 @@
-﻿import {Handler} from '@yandex-cloud/function-types';
+﻿import {Handler} from '@yandex-cloud/function-types/dist/src';
+import {assign} from 'lodash-es';
 
 import {requestFromDB} from '_utils/db';
 
-import {RequestParams} from './model';
+import {GetTaskRequest, RequestParams} from './model';
 import {createDbQuery} from './query';
 
-export const handler: Handler.Http = async function (_event, context) {
-    const data = context.getPayload();
-    const request = RequestParams.parse(data);
+export const handler: Handler.Http = async function (event) {
+  const query = event.queryStringParameters;
+  const request = RequestParams.parse(query);
 
-    const ydbQuery = createDbQuery(request);
-    const result = await requestFromDB(ydbQuery);
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result[0][0])
-    };
+  const ydbQuery = createDbQuery();
+
+  const typedTask = new GetTaskRequest(request);
+  const [rawTasks, rawWatchers] = await requestFromDB({
+    request: ydbQuery,
+    params: {
+      $task_id: typedTask.getTypedValue('task_id')
+    }
+  });
+  const [task] = GetTaskRequest.createNativeObjects(rawTasks);
+  const watchers = GetTaskRequest.createNativeObjects(rawWatchers);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(assign({}, task, {watchers: watchers.map(({user_id}) => user_id)}))
+  };
 };

@@ -10,11 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "@octokit/core": "5.0.1",
-    "@yandex-cloud/nodejs-sdk": "2.4.9",
+    "@yandex-cloud/nodejs-sdk": "^2.4.9",
     "axios": "1.5.0",
+    "lodash": "4.17.21",
+    "lodash-es": "4.17.21",
     "moment": "2.29.4",
     "node-fetch": "3.3.2",
-    "ydb-sdk": "3.9.0",
+    "ydb-sdk": "5.1.1",
     "zod": "3.22.3"
   },
   "devDependencies": {
@@ -28,6 +30,8 @@
     "@rollup/plugin-terser": "0.4.3",
     "@rollup/plugin-typescript": "11.1.2",
     "@trivago/prettier-plugin-sort-imports": "4.2.0",
+    "@types/lodash": "4.14.201",
+    "@types/lodash-es": "4.17.11",
     "@typescript-eslint/eslint-plugin": "6.2.0",
     "@typescript-eslint/parser": "6.2.0",
     "@yandex-cloud/function-types": "2.1.1",

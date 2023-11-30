@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2017",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,7 +11,8 @@
     "allowJs": false,
     "paths": {
       "_*": ["src/*"]
-    }
+    },
+    "experimentalDecorators": true
   },
   "exclude": ["dist"]
 }
