@@ -11,7 +11,7 @@
   "dependencies": {
     "@octokit/core": "5.0.1",
     "@yandex-cloud/nodejs-sdk": "^2.4.9",
-    "axios": "1.5.0",
+    "axios": "1.6.0",
     "lodash": "4.17.21",
     "lodash-es": "4.17.21",
     "moment": "2.29.4",
