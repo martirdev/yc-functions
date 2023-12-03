@@ -20,7 +20,7 @@ export const createTask = () => `
     $new_task_id = COALESCE($task_id, CAST($content_block_counts AS Utf8), "0");
     $new_watchers = COALESCE($watchers, ListCreate(Utf8));
     $new_create_at = COALESCE($create_at, CurrentUtcDatetime());
-    $closed_at = IF($status_task = 'closed', CurrentUtcDatetime(), null);
+    $closed_at = IF($status_task = 'done', CurrentUtcDatetime(), null);
   
     -- Create/Update tasks
     $task_table = AsList(AsStruct(
