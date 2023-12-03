@@ -9,7 +9,7 @@ export const RequestParams = z.object({
   name: z.string(),
   content: z.string(),
   task: z.string(),
-  status_task: z.enum(['opened', 'progress', 'review', 'done']),
+  status_task: z.enum(['opened', 'in-progress', 'in-review', 'done']),
   planned_sp: z.number().positive().optional(),
   spent_sp: z.number().positive().optional(),
   watchers: z.array(z.string()).optional()
