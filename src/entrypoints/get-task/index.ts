@@ -10,11 +10,9 @@ export const handler: Handler.Http = async function (event) {
   const query = event.queryStringParameters;
   const request = RequestParams.parse(query);
 
-  const ydbQuery = createDbQuery();
-
   const typedTask = new GetTaskRequest(request);
   const [rawTasks, rawWatchers] = await requestFromDB({
-    request: ydbQuery,
+    request: createDbQuery(),
     params: {
       $task_id: typedTask.getTypedValue('task_id')
     }
